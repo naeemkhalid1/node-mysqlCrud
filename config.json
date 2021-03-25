@@ -1,0 +1,8 @@
+{
+  "dbLocal": {
+    "host": "localhost",
+    "user": "root",
+    "password": "Naeem@12345",
+    "database": "curd_db"
+  }
+}
