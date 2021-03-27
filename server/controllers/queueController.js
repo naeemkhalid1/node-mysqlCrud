@@ -1,25 +1,27 @@
 const db = require("../../db");
 
 module.exports = {
-  createDetail: async (req, res) => {
-    console.log("In create detail");
+  createQueueDetail: async (req, res) => {
+    console.log("In createqueue detail");
 
-    const { name, phone, disease, age, gender, userType } = req.body;
+    const { hospital, queueState, notes, priority, user } = req.body;
+    // const { queueState } = req.body;
+
     console.log("req.body = ", req.body);
 
     let values = {
-      name,
-      phone,
-      disease,
-      age,
-      gender,
-      user_type: userType ? userType : "patient",
+      hospital,
+      queueState,
+      notes,
+      priority,
+      user,
+      //   user_type: userType ? userType : "patient",
       date_added: new Date(),
     };
     console.log("values = ", values);
 
     let connection = await db.createConn();
-    let sql = `INSERT INTO user SET ?`;
+    let sql = `INSERT INTO usersQueue SET ?`;
     connection.query(sql, values, function (error, result, fields) {
       if (error) {
         console.log("user: insert error: ", error);
@@ -34,11 +36,11 @@ module.exports = {
       connection.end();
     });
   },
-  getUserDetail: async (req, res) => {
-    console.log("In getUser detail...");
+  getQueueDetail: async (req, res) => {
+    console.log("In getqueue detail...");
 
     let connection = await db.createConn();
-    let sql = `SELECT * FROM user`;
+    let sql = `SELECT * FROM usersQueue WHERE id = ${req.params.id}`;
     connection.query(sql, function (error, result, fields) {
       if (error) {
         console.log("user: select error: ", error);
@@ -53,42 +55,42 @@ module.exports = {
       connection.end();
     });
   },
-  getDetail: async (req, res) => {
-    console.log("In get detail...");
+  updateQueueDetail: async (req, res) => {
+    console.log("In updatequeue detail...");
 
-    let connection = await db.createConn();
-    let sql = `SELECT * FROM user WHERE id = ${req.params.id}`;
-    connection.query(sql, function (error, result, fields) {
-      if (error) {
-        console.log("user: select error: ", error);
-        res
-          .status(500)
-          .send({ message: "Something went wrong, please try again!" });
-      } else if (result) {
-        console.log("user: select result = ", result);
-        res.status(200).send(result);
-      }
-      console.log("ending connection ...");
-      connection.end();
-    });
-  },
-  updateDetail: async (req, res) => {
-    console.log("In update detail...");
-
-    const { name, phone, disease, age, gender } = req.body;
-
+    // const { hospital, queueState, notes, priority, user } = req.body;
+    const { queueState } = req.body;
+    console.log("req.body = ", req.body);
+    // console.log("req-body===", queueState);
     let values = {
-      name,
-      phone,
-      disease,
-      age,
-      gender,
-      date_updated: new Date(),
+      // hospital,
+      queueState,
+      // notes,
+      // priority,
+      // user,
+      date_added: new Date(),
     };
+    console.log("values==", values);
+    if (queueState !== undefined) {
+      values = { ...values, queueState };
+    }
+    // if (hospital !== undefined) {
+    //   values = { ...values, hospital };
+    // }
+    // if (notes !== undefined) {
+    //   values = { ...values, notes };
+    // }
+    // if (priority !== undefined) {
+    //   values = { ...values, priority };
+    // }
+    // if (user !== undefined) {
+    //   values = { ...values, user };
+    // }
+
     console.log("values = ", values);
 
     let connection = await db.createConn();
-    let sql = `UPDATE user SET ? WHERE id = ${req.params.id}`;
+    let sql = `UPDATE usersQueue SET ? WHERE id = ${req.params.id}`;
     connection.query(sql, values, function (error, result, fields) {
       if (error) {
         console.log("user: update error: ", error);
@@ -103,11 +105,11 @@ module.exports = {
       connection.end();
     });
   },
-  deleteDetail: async (req, res) => {
-    console.log("In delete detail...");
+  deleteQueueDetail: async (req, res) => {
+    console.log("In deletequeue detail...");
 
     let connection = await db.createConn();
-    let sql = `DELETE FROM user WHERE id = ${req.params.id}`;
+    let sql = `DELETE FROM usersQueue WHERE id = ${req.params.id}`;
     connection.query(sql, function (error, result, fields) {
       if (error) {
         console.log("user: delete error: ", error);
