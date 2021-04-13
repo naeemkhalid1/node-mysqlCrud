@@ -21,6 +21,7 @@ module.exports = {
     let connection = await db.createConn();
     let sql = `INSERT INTO user SET ?`;
     connection.query(sql, values, function (error, result, fields) {
+      console.log("your result", fields);
       if (error) {
         console.log("user: insert error: ", error);
         res
@@ -28,7 +29,11 @@ module.exports = {
           .send({ message: "Something went wrong, please try again!" });
       } else if (result) {
         console.log("user: insertion result = ", result);
-        res.status(200).send({ message: "Your Request has been delivered." });
+        res
+          .status(200)
+          .send({
+            message: `Your Request has been delivered ${result.insertId}`,
+          });
       }
       console.log("ending connection ...");
       connection.end();

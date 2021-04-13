@@ -10,6 +10,7 @@ router.delete("/detail/:id", userController.deleteDetail);
 router.put("/detail/:id", userController.updateDetail);
 
 router.post("/queue", queueController.createQueueDetail);
+router.get("/queues", queueController.getAllQueueDetail);
 router.get("/queue/:id", queueController.getQueueDetail);
 router.delete("/queue/:id", queueController.deleteQueueDetail);
 router.put("/queue/:id", queueController.updateQueueDetail);

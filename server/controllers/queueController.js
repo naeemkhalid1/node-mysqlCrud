@@ -4,12 +4,13 @@ module.exports = {
   createQueueDetail: async (req, res) => {
     console.log("In createqueue detail");
 
-    const { hospital, queueState, notes, priority, user } = req.body;
+    const { id, hospital, queueState, notes, priority, user } = req.body;
     // const { queueState } = req.body;
 
     console.log("req.body = ", req.body);
 
     let values = {
+      id,
       hospital,
       queueState,
       notes,
@@ -19,6 +20,21 @@ module.exports = {
       date_added: new Date(),
     };
     console.log("values = ", values);
+    if (queueState == undefined) {
+      values = { ...values, queueState };
+    }
+    if (hospital == undefined) {
+      values = { ...values, hospital };
+    }
+    if (notes == undefined) {
+      values = { ...values, notes };
+    }
+    if (priority == undefined) {
+      values = { ...values, priority };
+    }
+    if (user == undefined) {
+      values = { ...values, user };
+    }
 
     let connection = await db.createConn();
     let sql = `INSERT INTO usersQueue SET ?`;
@@ -30,7 +46,7 @@ module.exports = {
           .send({ message: "Something went wrong, please try again!" });
       } else if (result) {
         console.log("user: insertion result = ", result);
-        res.status(200).send({ message: "Your Request has been delivered." });
+        res.status(200).send({ message: result.insertId });
       }
       console.log("ending connection ...");
       connection.end();
@@ -55,37 +71,56 @@ module.exports = {
       connection.end();
     });
   },
+  getAllQueueDetail: async (req, res) => {
+    console.log("In getallqueue detail...");
+
+    let connection = await db.createConn();
+    let sql = `SELECT * FROM usersQueue`;
+    connection.query(sql, function (error, result, fields) {
+      if (error) {
+        console.log("user: select error: ", error);
+        res
+          .status(500)
+          .send({ message: "Something went wrong, please try again!" });
+      } else if (result) {
+        console.log("user: select result = ", result);
+        res.status(200).send(result);
+      }
+      console.log("ending connection ...");
+      connection.end();
+    });
+  },
   updateQueueDetail: async (req, res) => {
     console.log("In updatequeue detail...");
 
-    // const { hospital, queueState, notes, priority, user } = req.body;
-    const { queueState } = req.body;
+    const { hospital, queueState, notes, priority, user } = req.body;
+    // const { queueState } = req.body;
     console.log("req.body = ", req.body);
     // console.log("req-body===", queueState);
     let values = {
-      // hospital,
+      hospital,
       queueState,
-      // notes,
-      // priority,
-      // user,
+      notes,
+      priority,
+      user,
       date_added: new Date(),
     };
     console.log("values==", values);
     if (queueState !== undefined) {
       values = { ...values, queueState };
     }
-    // if (hospital !== undefined) {
-    //   values = { ...values, hospital };
-    // }
-    // if (notes !== undefined) {
-    //   values = { ...values, notes };
-    // }
-    // if (priority !== undefined) {
-    //   values = { ...values, priority };
-    // }
-    // if (user !== undefined) {
-    //   values = { ...values, user };
-    // }
+    if (hospital !== undefined) {
+      values = { ...values, hospital };
+    }
+    if (notes !== undefined) {
+      values = { ...values, notes };
+    }
+    if (priority !== undefined) {
+      values = { ...values, priority };
+    }
+    if (user !== undefined) {
+      values = { ...values, user };
+    }
 
     console.log("values = ", values);
 
