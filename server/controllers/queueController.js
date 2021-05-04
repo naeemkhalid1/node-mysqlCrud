@@ -4,10 +4,36 @@ module.exports = {
   createQueueDetail: async (req, res) => {
     console.log("In createqueue detail");
 
-    const { id, hospital, queueState, notes, priority, user } = req.body;
+    const {
+      id,
+      hospital,
+      queueState,
+      notes,
+      priority,
+      user,
+      startingTime,
+      processTime,
+      date,
+    } = req.body;
     // const { queueState } = req.body;
+    // var currentdate = new Date();
+    // var getCurrentDate =
+    //   // "Last Sync: " +
+    //   currentdate.getDate() +
+    //   "/" +
+    //   (currentdate.getMonth() + 1) +
+    //   "/" +
+    //   currentdate.getFullYear();
+    // console.log(STR_TO_DATE(date));
+    // +
+    // " @ " +
+    // currentdate.getHours() +
+    // ":" +
+    // currentdate.getMinutes() +
+    // ":" +
+    // currentdate.getSeconds();
 
-    console.log("req.body = ", req.body);
+    console.log("req.body++ = ", req.body);
 
     let values = {
       id,
@@ -16,10 +42,19 @@ module.exports = {
       notes,
       priority,
       user,
+      startingTime,
+      processTime,
       //   user_type: userType ? userType : "patient",
+      date,
       date_added: new Date(),
     };
     console.log("values = ", values);
+    if (processTime == undefined) {
+      values = { ...values, processTime };
+    }
+    if (startingTime == undefined) {
+      values = { ...values, startingTime };
+    }
     if (queueState == undefined) {
       values = { ...values, queueState };
     }
@@ -93,7 +128,14 @@ module.exports = {
   updateQueueDetail: async (req, res) => {
     console.log("In updatequeue detail...");
 
-    const { hospital, queueState, notes, priority, user } = req.body;
+    const {
+      hospital,
+      queueState,
+      notes,
+      priority,
+      user,
+      processTime,
+    } = req.body;
     // const { queueState } = req.body;
     console.log("req.body = ", req.body);
     // console.log("req-body===", queueState);
@@ -103,6 +145,7 @@ module.exports = {
       notes,
       priority,
       user,
+      processTime,
       date_added: new Date(),
     };
     console.log("values==", values);
@@ -142,6 +185,7 @@ module.exports = {
   },
   deleteQueueDetail: async (req, res) => {
     console.log("In deletequeue detail...");
+    console.log("id====", req.params.id);
 
     let connection = await db.createConn();
     let sql = `DELETE FROM usersQueue WHERE id = ${req.params.id}`;

@@ -5,6 +5,10 @@ CREATE TABLE `curd_db`.`usersQueue` (
   `notes` VARCHAR(45) NULL,
   `priority` VARCHAR(45) NOT NULL DEFAULT 'low',
   `user` VARCHAR(45) NOT NULL,
+  `startingTime` VARCHAR(45) NULL ,
+  `processTime` VARCHAR(45) NULL,
+  -- `processTime` VARCHAR(45) NULL AFTER `startingTime`;
+  `date` DATE NULL,
   `date_added` datetime DEFAULT NULL,
   `date_updated` datetime DEFAULT NULL,
   PRIMARY KEY (`id`));
