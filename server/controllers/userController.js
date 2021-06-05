@@ -1,4 +1,5 @@
 const db = require("../../db");
+//import { Expo } from "expo-server-sdk";
 
 module.exports = {
   createDetail: async (req, res) => {
@@ -29,11 +30,9 @@ module.exports = {
           .send({ message: "Something went wrong, please try again!" });
       } else if (result) {
         console.log("user: insertion result = ", result);
-        res
-          .status(200)
-          .send({
-            message: `Your Request has been delivered ${result.insertId}`,
-          });
+        res.status(200).send({
+          message: `Your Request has been delivered ${result.insertId}`,
+        });
       }
       console.log("ending connection ...");
       connection.end();

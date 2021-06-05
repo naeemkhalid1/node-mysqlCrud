@@ -15,23 +15,6 @@ module.exports = {
       processTime,
       date,
     } = req.body;
-    // const { queueState } = req.body;
-    // var currentdate = new Date();
-    // var getCurrentDate =
-    //   // "Last Sync: " +
-    //   currentdate.getDate() +
-    //   "/" +
-    //   (currentdate.getMonth() + 1) +
-    //   "/" +
-    //   currentdate.getFullYear();
-    // console.log(STR_TO_DATE(date));
-    // +
-    // " @ " +
-    // currentdate.getHours() +
-    // ":" +
-    // currentdate.getMinutes() +
-    // ":" +
-    // currentdate.getSeconds();
 
     console.log("req.body++ = ", req.body);
 
@@ -128,14 +111,8 @@ module.exports = {
   updateQueueDetail: async (req, res) => {
     console.log("In updatequeue detail...");
 
-    const {
-      hospital,
-      queueState,
-      notes,
-      priority,
-      user,
-      processTime,
-    } = req.body;
+    const { hospital, queueState, notes, priority, user, processTime } =
+      req.body;
     // const { queueState } = req.body;
     console.log("req.body = ", req.body);
     // console.log("req-body===", queueState);
